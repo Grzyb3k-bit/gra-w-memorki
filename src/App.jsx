@@ -1,122 +1,122 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [game, setGame] = useState(false);
+  const [obecny, setobecny] = useState(0);
+  const [active, setactive] = useState(0); //aktywnosc elementu
+  const [round, setround] = useState(false); //poczatek round czyli pokazanie kolejnosci
+  const [tab, setTab] = useState([]);
+  const [clear, setclaer] = useState([]);
+  const [lose, setlose] = useState(false);
+  const [icon, seticon] = useState(false);
+
+  useEffect(() => {
+    let timeouts = [];
+    setround(true);
+    tab.map((item, index) => {
+      timeouts.push(
+        setTimeout(() => {
+          setactive(item);
+          setTimeout(() => {
+            setactive(0);
+          }, 500);
+        }, index * 600),
+      );
+    });
+    setclaer(timeouts);
+    setTimeout(() => setround(false), tab.length * 600);
+  }, [tab]);
+  // czas po jakim wsm maja sie pokazac wszystkie elementy np 2 element *600ms
+
+  function getRandomInt() {
+    return Math.floor(Math.random() * 4 + 1);
+  }
+
+  const Startgame = () => {
+    setlose(false);
+    setGame(true);
+    setTab([getRandomInt()]);
+  };
+  const reset = () => {
+    setactive(0);
+    setTab([]);
+    setGame(false);
+    setround(false);
+    clear.forEach(clearTimeout);
+    setlose(false);
+
+    setclaer([]);
+  };
+
+  function btn(id) {
+    if (tab[obecny] == id) {
+      if (obecny + 1 == tab.length) {
+        setTab([...tab, getRandomInt()]);
+        setobecny(0);
+        seticon(true);
+      } else {
+        seticon(false);
+        setobecny((prev) => prev + 1);
+      }
+    } else {
+      setGame(false);
+      setactive(-1);
+      setlose(true);
+      setTimeout(() => {
+        setactive(0);
+      }, 200);
+    }
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
+    <div className="box">
+      {icon && <img src="/icon.png" alt="win" className="wins" />}
+      {lose && <img src="/lose.png" alt="lose" className="lose" />}
+
+      <div className="gamebox">
+        {!game && (
+          <button onClick={Startgame} className="start">
+            Start
+          </button>
+        )}
         <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+          disabled={!game || round}
+          onClick={() => btn(1)}
+          className={`red btn ${active == 1 ? "active" : ""}`}
         >
-          Count is {count}
+          1
         </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <button
+          disabled={!game || round}
+          onClick={() => btn(2)}
+          className={`green btn ${active == 2 ? "active" : ""}`}
+        >
+          2
+        </button>
+        <button
+          disabled={!game || round}
+          onClick={() => btn(3)}
+          className={`blue btn ${active == 3 ? "active" : ""}`}
+        >
+          3
+        </button>
+        <button
+          disabled={!game || round}
+          onClick={() => btn(4)}
+          className={`yellow btn ${active == 4 ? "active" : ""}`}
+        >
+          4
+        </button>
+        <div className="level">Poziom: {tab.length}</div>
+        <button className="rest_btn" onClick={reset}>
+          Reset
+        </button>
+      </div>
+      <p className="info">{lose && "przegrana"}</p>
+    </div>
+  );
 }
 
-export default App
+export default App;
