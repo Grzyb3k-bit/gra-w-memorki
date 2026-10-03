@@ -14,7 +14,7 @@ function App() {
   useEffect(() => {
     let timeouts = [];
     setround(true);
-    console.log(tab);
+    console.log("Btn", tab);
     tab.map((item, index) => {
       timeouts.push(
         setTimeout(() => {
