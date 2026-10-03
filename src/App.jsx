@@ -10,6 +10,7 @@ function App() {
   const [clear, setclaer] = useState([]);
   const [lose, setlose] = useState(false);
   const [icon, seticon] = useState(false);
+  const [bestscore, setbestscore] = useState(0);
 
   useEffect(() => {
     let timeouts = [];
@@ -69,6 +70,9 @@ function App() {
     } else {
       setGame(false);
       setactive(-1);
+      if (tab.length > bestscore) {
+        setbestscore(tab.length);
+      }
       setlose(true);
       setTimeout(() => {
         setactive(0);
@@ -81,6 +85,11 @@ function App() {
       {icon && <img src="/gra-w-memorki/icon.png" alt="win" className="wins" />}
       {lose && (
         <img src="/gra-w-memorki/lose.png" alt="lose" className="lose" />
+      )}
+      {bestscore > 1 && (
+        <div className="best">
+          <p>najlepszy wynik: {bestscore} </p>
+        </div>
       )}
 
       <div className="gamebox">
