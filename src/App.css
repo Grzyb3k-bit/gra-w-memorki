@@ -18,8 +18,8 @@ body {
   align-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  width: 600px;
-  height: 600px;
+  width: 610px;
+  height: 610px;
 }
 button {
   cursor: pointer;

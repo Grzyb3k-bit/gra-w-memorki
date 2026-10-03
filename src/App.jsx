@@ -37,6 +37,7 @@ function App() {
     setlose(false);
     setGame(true);
     setTab([getRandomInt()]);
+    setobecny(0);
   };
   const reset = () => {
     setactive(0);
@@ -52,11 +53,16 @@ function App() {
   function btn(id) {
     if (tab[obecny] == id) {
       if (obecny + 1 == tab.length) {
+        if (tab.length % 5 === 0) {
+          seticon(true);
+
+          setTimeout(() => {
+            seticon(false);
+          }, 2000);
+        }
         setTab([...tab, getRandomInt()]);
         setobecny(0);
-        seticon(true);
       } else {
-        seticon(false);
         setobecny((prev) => prev + 1);
       }
     } else {
@@ -71,8 +77,10 @@ function App() {
 
   return (
     <div className="box">
-      {icon && <img src="/icon.png" alt="win" className="wins" />}
-      {lose && <img src="/lose.png" alt="lose" className="lose" />}
+      {icon && <img src="/gra-w-memorki/icon.png" alt="win" className="wins" />}
+      {lose && (
+        <img src="/gra-w-memorki/lose.png" alt="lose" className="lose" />
+      )}
 
       <div className="gamebox">
         {!game && (
