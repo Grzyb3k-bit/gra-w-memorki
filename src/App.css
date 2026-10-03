@@ -31,9 +31,7 @@ body {
   background-color: #ffd700;
   border-radius: 16px;
 }
-.hidden {
-  display: none;
-}
+
 .best p {
   font-size: larger;
   font-weight: 600;
@@ -121,49 +119,36 @@ button {
   color: white;
   text-align: center;
 }
-.wins {
-  top: 0;
-  opacity: 0;
-  left: 0;
-  display: inline-block;
-  position: absolute;
-  animation: win 2s ease-in-out normal;
+.message {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  min-height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px 25px;
+  background-color: #252525;
+  color: white;
+  border: 2px solid #ffd700;
+  border-radius: 20px;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 600;
+  z-index: 100;
+  animation: message 0.5s ease-in-out;
 }
-.lose {
-  top: 0;
-  right: 0;
-  opacity: 0;
-  display: inline-block;
-  position: absolute;
-  animation: lose 2s ease-in-out normal;
-}
-@keyframes lose {
-  0% {
-    right: 0;
+@keyframes message {
+  from {
     opacity: 0;
+    transform: translate(-50%, -30px);
   }
-  50% {
-    right: 25%;
-    opacity: 1;
-  }
-  100% {
-    right: 100;
-    opacity: 0;
-  }
-}
 
-@keyframes win {
-  0% {
-    left: 0;
-    opacity: 0;
-  }
-  50% {
-    left: 25%;
+  to {
     opacity: 1;
-  }
-  100% {
-    left: 100;
-    opacity: 0;
+    transform: translate(-50%, 0);
   }
 }
 @media only screen and (max-width: 768px) {
@@ -178,14 +163,26 @@ button {
     width: 250px;
     height: 250px;
   }
+  .info {
+    margin-top: 8px;
+  }
 }
 @media only screen and (max-width: 520px) {
   .gamebox {
     width: 320px;
     height: 320px;
   }
+
   button {
     width: 150px;
     height: 150px;
+  }
+
+  .message {
+    width: 90%;
+    font-size: 20px;
+  }
+  .info {
+    margin-top: 8px;
   }
 }
